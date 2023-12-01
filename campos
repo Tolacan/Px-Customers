@@ -1,0 +1,37 @@
+-nombre
+-apellido paterno
+-apellido materno
+-fecha nacimiento
+-ine
+-rfc
+-activo(boolean)
+
+/*Contacto*/
+-telefono1
+-telefono 2
+-correo
+
+/*Ubuicacion*/
+-calle;
+-numeroInterior;
+-numeroExterior;
+-colonia;
+-codigoPostal;
+-referencias;
+-municipio;
+-estado;
+-pais;
+-latitud;
+-longitud;
+
+
+/*Referencias*/
+-nombre
+-apellido paterno
+-apellido materno
+-telefono
+-parentesco
+
+
+-fotos
+
