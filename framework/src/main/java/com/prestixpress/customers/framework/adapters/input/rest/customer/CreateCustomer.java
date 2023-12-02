@@ -19,8 +19,6 @@ import java.util.ArrayList;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class CreateCustomer {
     @JsonProperty
-    private Id id;
-    @JsonProperty
     private Cliente cliente;
     @JsonProperty
     private Contacto contacto;

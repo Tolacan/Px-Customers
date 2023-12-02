@@ -41,7 +41,17 @@ public class CustomerManagementInputPort implements CustomerManagementUseCase {
     }
 
     @Override
-    public List<Customer> retrieveCustomers(String FilterType, String FilterValue) {
+    public <T> List<T>  retrieveCustomers(String FilterType, String FilterValue) {
         return customerManagementOutputPort.retrieveCustomers(FilterType, FilterValue);
+    }
+
+    @Override
+    public <T> List<T> retrieveReferences(String uuid) {
+        return customerManagementOutputPort.retrieveReferences(uuid);
+    }
+
+    @Override
+    public <T> List<T> retrievePhotos(String uuid) {
+        return customerManagementOutputPort.retrievePhotos(uuid);
     }
 }

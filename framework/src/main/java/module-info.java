@@ -23,6 +23,7 @@ module framework {
     requires microprofile.rest.client.api;
     requires org.jboss.logging;
     requires jbcrypt;
+    requires quarkus.panache.common;
 
     exports com.prestixpress.customers.framework.adapters.output.postgres.data;
     opens com.prestixpress.customers.framework.adapters.output.postgres.data;

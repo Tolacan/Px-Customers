@@ -36,8 +36,7 @@ public class CustomerManagementAdapter {
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(operationId = "createCustomer",description = "Create and persist a new customer")
     public Uni<Response> createCustomer(String createCustomer){
-       // Customer customer = customerManagementUseCase.createCustomer(createCustomer.getCliente(),createCustomer.getContacto(),createCustomer.getFotos(),createCustomer.getReferencias(),createCustomer.getUbicacion(),createCustomer.getId(),createCustomer.getTipoCliente());
-       try{
+      try{
            ObjectMapper mapper = new ObjectMapper();
            SimpleModule module = new SimpleModule();
            module.addDeserializer(Customer.class, new CustomerDeserializer());
@@ -61,19 +60,31 @@ public class CustomerManagementAdapter {
 
     @Transactional
     @POST
-    @Path("/update")
+    @Path("/update/")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Operation(operationId = "updateCustomer",description = "Update and persist a customer")
-   public Uni<Response> updateCustomer(CreateCustomer createCustomer){
+   public Uni<Response> updateCustomer(String createCustomer){
 
-      Customer customer = customerManagementUseCase.createCustomer(createCustomer.getCliente(),createCustomer.getContacto(),createCustomer.getFotos(),createCustomer.getReferencias(),createCustomer.getUbicacion(),createCustomer.getId(),createCustomer.getTipoCliente());
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            SimpleModule module = new SimpleModule();
+            module.addDeserializer(Customer.class, new CustomerDeserializer());
+            mapper.registerModule(module);
 
-        return Uni.createFrom()
-                .item(customerManagementUseCase.updateCustomer(customer))
-                .onItem()
-                .transform( f -> f != null ? Response.ok(f) : Response.ok(null))
-                .onItem()
-                .transform(Response.ResponseBuilder::build);
+            Customer customer = mapper.readValue(createCustomer, Customer.class);
+
+            return Uni.createFrom()
+                    .item(customerManagementUseCase.updateCustomer(customer))
+                    .onItem()
+                    .transform( f -> f != null ? Response.ok(f) : Response.ok(null))
+                    .onItem()
+                    .transform(Response.ResponseBuilder::build);
+        }
+        catch (Exception e){
+            LOG.info("Error: "+e.getMessage());
+            return null;
+        }
    }
 
     @Transactional
@@ -82,9 +93,39 @@ public class CustomerManagementAdapter {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     @Operation(operationId = "getCustomers",description = "get customers by filter")
-    public Uni<Response> getAvailable(@PathParam("filtro") String filter, @PathParam("valor") String value){
+    public Uni<Response> getCustomers(@PathParam("filtro") String filter, @PathParam("valor") String value){
         return Uni.createFrom()
                 .item(customerManagementUseCase.retrieveCustomers(filter,value))
+                .onItem()
+                .transform( f -> f != null ? Response.ok(f) : Response.ok(null))
+                .onItem()
+                .transform(Response.ResponseBuilder::build);
+    }
+
+    @Transactional
+    @GET
+    @Path("/getreference/{uuid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Operation(operationId = "getReference",description = "get reference by uuid")
+    public Uni<Response> getReference(@PathParam("uuid") String uuid){
+        return Uni.createFrom()
+                .item(customerManagementUseCase.retrieveReferences(uuid))
+                .onItem()
+                .transform( f -> f != null ? Response.ok(f) : Response.ok(null))
+                .onItem()
+                .transform(Response.ResponseBuilder::build);
+    }
+
+    @Transactional
+    @GET
+    @Path("/getpicture/{uuid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Operation(operationId = "getPicture",description = "get picture by uuid")
+    public Uni<Response> getPicture(@PathParam("uuid") String uuid){
+        return Uni.createFrom()
+                .item(customerManagementUseCase.retrievePhotos(uuid))
                 .onItem()
                 .transform( f -> f != null ? Response.ok(f) : Response.ok(null))
                 .onItem()

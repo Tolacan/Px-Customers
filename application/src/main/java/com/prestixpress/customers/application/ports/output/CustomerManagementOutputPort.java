@@ -10,6 +10,10 @@ public interface CustomerManagementOutputPort {
 
     Customer updateCustomer(Customer customer);
 
-    List<Customer> retrieveCustomers(String FilterType, String FilterValue);
+    <T> List<T> retrieveCustomers(String FilterType, String FilterValue);
+
+    <T> List<T>  retrieveReferences(String uuid);
+
+    <T> List<T>  retrievePhotos(String uuid);
 
 }

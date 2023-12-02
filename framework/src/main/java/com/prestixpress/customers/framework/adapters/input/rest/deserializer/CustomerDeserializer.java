@@ -28,31 +28,31 @@ public class CustomerDeserializer extends StdDeserializer<Customer>{
         try{
             JsonNode node = p.getCodec().readTree(p);
 
-            var id = node.get("cliente").get("uuid").asText();
+            var id = node.get("cliente").get("uuid").asText().toLowerCase();
 
             var cliente = Cliente.builder()
-                    .nombre(node.get("cliente").get("nombre").asText())
-                    .apellidoPaterno(node.get("cliente").get("apellidoPaterno").asText())
-                    .apellidoMaterno(node.get("cliente").get("apellidoMaterno").asText())
-                    .rfc(node.get("cliente").get("rfc").asText())
-                    .ine(node.get("cliente").get("ine").asText())
-                    .fechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaNacimiento").asText()))
-                    .fechaRegistro(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaRegistro").asText()))
-                    .fechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaModificacion").asText()))
+                    .nombre(node.get("cliente").get("nombre").asText().toLowerCase())
+                    .apellidoPaterno(node.get("cliente").get("apellidoPaterno").asText().toLowerCase())
+                    .apellidoMaterno(node.get("cliente").get("apellidoMaterno").asText().toLowerCase())
+                    .rfc(node.get("cliente").get("rfc").asText().toLowerCase())
+                    .ine(node.get("cliente").get("ine").asText().toLowerCase())
+                    .fechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaNacimiento").asText().toLowerCase()))
+                    .fechaRegistro(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaRegistro").asText().toLowerCase()))
+                    .fechaModificacion(new SimpleDateFormat("yyyy-MM-dd").parse(node.get("cliente").get("fechaModificacion").asText().toLowerCase()))
                     .activo(node.get("cliente").get("activo").asBoolean())
                     .build();
 
             var contacto = Contacto.builder()
-                    .telefono1(node.get("contacto").get("telefono1").asText())
-                    .telefono2(node.get("contacto").get("telefono2").asText())
-                    .correo(node.get("contacto").get("correo").asText())
+                    .telefono1(node.get("contacto").get("telefono1").asText().toLowerCase())
+                    .telefono2(node.get("contacto").get("telefono2").asText().toLowerCase())
+                    .correo(node.get("contacto").get("correo").asText().toLowerCase())
                     .build();
 
             var fotos = new ArrayList<Fotos>();
             for (JsonNode foto : node.get("fotos")) {
                 fotos.add(Fotos.builder()
-                        .foto(foto.get("foto").asText())
-                        .fechaRegistro(new SimpleDateFormat("yyyy-MM-dd").parse(foto.get("fechaRegistro").asText()))
+                        .foto(foto.get("foto").asText().toLowerCase())
+                        .fechaRegistro(new SimpleDateFormat("yyyy-MM-dd").parse(foto.get("fechaRegistro").asText().toLowerCase()))
                         .eliminado(foto.get("eliminado").asBoolean())
                         .build());
             }
@@ -60,29 +60,29 @@ public class CustomerDeserializer extends StdDeserializer<Customer>{
             var referencias = new ArrayList<Referencias>();
             for (JsonNode referencia : node.get("referencias")) {
                 referencias.add(Referencias.builder()
-                        .nombre(referencia.get("nombre").asText())
-                        .apellidoPaterno(referencia.get("apellidoPaterno").asText())
-                        .apellidoMaterno(referencia.get("apellidoMaterno").asText())
-                        .parentesco(referencia.get("parentesco").asText())
-                        .telefono(referencia.get("telefono").asText())
+                        .nombre(referencia.get("nombre").asText().toLowerCase())
+                        .apellidoPaterno(referencia.get("apellidoPaterno").asText().toLowerCase())
+                        .apellidoMaterno(referencia.get("apellidoMaterno").asText().toLowerCase())
+                        .parentesco(referencia.get("parentesco").asText().toLowerCase())
+                        .telefono(referencia.get("telefono").asText().toLowerCase())
                         .build());
             }
 
             var ubicacion = Ubicacion.builder()
-                    .calle(node.get("ubicacion").get("calle").asText())
-                    .numeroInterior(node.get("ubicacion").get("numeroInterior").asText())
-                    .numeroExterior(node.get("ubicacion").get("numeroExterior").asText())
-                    .colonia(node.get("ubicacion").get("colonia").asText())
-                    .codigoPostal(node.get("ubicacion").get("codigoPostal").asText())
-                    .referencias(node.get("ubicacion").get("referencias").asText())
-                    .municipio(node.get("ubicacion").get("municipio").asText())
-                    .estado(node.get("ubicacion").get("estado").asText())
-                    .pais(node.get("ubicacion").get("pais").asText())
-                    .latitud(node.get("ubicacion").get("latitud").asText())
-                    .longitud(node.get("ubicacion").get("longitud").asText())
+                    .calle(node.get("ubicacion").get("calle").asText().toLowerCase())
+                    .numeroInterior(node.get("ubicacion").get("numeroInterior").asText().toLowerCase())
+                    .numeroExterior(node.get("ubicacion").get("numeroExterior").asText().toLowerCase())
+                    .colonia(node.get("ubicacion").get("colonia").asText().toLowerCase())
+                    .codigoPostal(node.get("ubicacion").get("codigoPostal").asText().toLowerCase())
+                    .referencias(node.get("ubicacion").get("referencias").asText().toLowerCase())
+                    .municipio(node.get("ubicacion").get("municipio").asText().toLowerCase())
+                    .estado(node.get("ubicacion").get("estado").asText().toLowerCase())
+                    .pais(node.get("ubicacion").get("pais").asText().toLowerCase())
+                    .latitud(node.get("ubicacion").get("latitud").asText().toLowerCase())
+                    .longitud(node.get("ubicacion").get("longitud").asText().toLowerCase())
                     .build();
 
-            var tipoCliente = TipoCliente.valueOf(node.get("tipoCliente").asText());
+            var tipoCliente = TipoCliente.valueOf(node.get("tipoCliente").asText().toLowerCase());
 
 
             var customer = CustomerFactory.getCustomer(
